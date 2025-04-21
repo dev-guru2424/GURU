@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teams- Dark Mode</title>
+  <style>
+    body 
+    {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    h2 
+    {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label 
+    {
+      display: inline-block;
+      width: 220px;
+      margin-bottom: 10px;
+    }
+    input 
+    {
+      padding: 6px;
+      width: 200px;
+      background-color: #1e1e1e;
+      border: 1px solid #444;
+      color: #fff;
+    }
+    button 
+    {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover 
+    {
+      background-color: #444;
+    }
+    .container 
+    {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+    }
+    .column 
+    {
+      flex: 1;
+      margin: 0 20px;
+    }
+    .column h3 
+    {
+      background-color: #222;
+      color: #f0f0f0;
+      padding: 10px;
+      text-align: center;
+      border-radius: 5px;
+    }
+    table 
+    {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 15px;
+      background-color: #1e1e1e;
+    }
+    th, td 
+    {
+      border: 1px solid #555;
+      padding: 10px;
+      text-align: center;
+      color: #f0f0f0;
+    }
+    th 
+    {
+      background-color: #2a2a2a;
+    }
+    .leader 
+    {
+      background-color: #07bdf5;
+      color: #fff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2>TEAMS</h2>
+  <label>Total Number of Girls: </label><input type="number" id="numGirls"><br>
+  <label>Total Number of Boys: </label><input type="number" id="numBoys"><br>
+  <label>Number of Girls Teams: </label><input type="number" id="girlsTeamCount"><br>
+  <label>Number of Boys Teams: </label><input type="number" id="boysTeamCount"><br>
+  <label>Absent Girls Roll Nos (comma separated):</label><input type="text" id="absentGirls" placeholder="e.g. 2,5"><br>
+  <label>Absent Boys Roll Nos (comma separated):</label><input type="text" id="absentBoys" placeholder="e.g. 6,9"><br>
+  <button onclick="distributeTeams()">Distribute</button>
+  <div class="container">
+    <div class="column">
+      <h3>Girls Teams</h3>
+      <div id="girlsTeams"></div>
+    </div>
+    <div class="column">
+      <h3>Boys Teams</h3>
+      <div id="boysTeams"></div>
+    </div>
+  </div>
+  <script>
+    function distributeTeams() 
+    {
+      const numGirls = parseInt(document.getElementById('numGirls').value);
+      const numBoys = parseInt(document.getElementById('numBoys').value);
+      const girlsTeamCount = parseInt(document.getElementById('girlsTeamCount').value);
+      const boysTeamCount = parseInt(document.getElementById('boysTeamCount').value);
+      const absentGirls = document.getElementById('absentGirls').value.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+      const absentBoys = document.getElementById('absentBoys').value.split(',').map(n => parseInt(n.trim())).filter(n => !isNaN(n));
+      const girlRolls = Array.from({ length: numGirls }, (_, i) => i + 1).filter(r => !absentGirls.includes(r));
+      const boyRolls = Array.from({ length: numBoys }, (_, i) => i + 1 + numGirls).filter(r => !absentBoys.includes(r));
+      girlRolls.sort(() => Math.random() - 0.5);
+      boyRolls.sort(() => Math.random() - 0.5);
+      const girlsPerTeam = Math.floor(girlRolls.length / girlsTeamCount);
+      const girlTeams = [];
+      let gIndex = 0;
+      for (let i = 0; i < girlsTeamCount; i++) 
+      {
+        const team = girlRolls.slice(gIndex, gIndex + girlsPerTeam).sort((a, b) => a - b);
+        girlTeams.push(team);
+        gIndex += girlsPerTeam;
+      }
+      const extraGirlTeam = girlRolls.slice(gIndex).sort((a, b) => a - b);
+      const boysPerTeam = Math.floor(boyRolls.length / boysTeamCount);
+      const boyTeams = [];
+      let bIndex = 0;
+      for (let i = 0; i < boysTeamCount; i++) 
+      {
+        const team = boyRolls.slice(bIndex, bIndex + boysPerTeam).sort((a, b) => a - b);
+        boyTeams.push(team);
+        bIndex += boysPerTeam;
+      }
+      const extraBoyTeam = boyRolls.slice(bIndex).sort((a, b) => a - b);
+      function generateTeamTable(team, title) 
+      {
+        if (team.length === 0) return '';
+        const leaderRoll = team[Math.floor(Math.random() * team.length)];
+        return `
+          <table>
+            <thead><tr><th colspan="${team.length}">${title}</th></tr></thead>
+            <tbody><tr>
+              ${team.map(r => `<td class="${r === leaderRoll ? 'leader' : ''}">${r}</td>`).join('')}
+            </tr></tbody>
+          </table>`;
+      }
+      const girlOutput = girlTeams.map((team, i) => generateTeamTable(team, `Girl Team ${i + 1} (${team.length})`)).join('') +
+        generateTeamTable(extraGirlTeam, `Extra Girl Team (${extraGirlTeam.length})`);
+      const boyOutput = boyTeams.map((team, i) => generateTeamTable(team, `Boy Team ${i + 1} (${team.length})`)).join('') +
+        generateTeamTable(extraBoyTeam, `Extra Boy Team (${extraBoyTeam.length})`);
+      document.getElementById("girlsTeams").innerHTML = girlOutput;
+      document.getElementById("boysTeams").innerHTML = boyOutput;
+    }
+  </script>
+</body>
+</html>

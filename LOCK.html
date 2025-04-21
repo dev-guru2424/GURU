@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin-top: 100px;
+            background-image: url('XYZ.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            color: white;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        form {
+            display: inline-block;
+            text-align: left;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            animation: slideIn 1.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        input {
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        h2 {
+            color: white;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+        }
+    </style>
+</head>
+<body>
+    <h2>Login Check</h2>
+    <form onsubmit="return checkLogin()">
+        <label for="username">USERNAME:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">PASSWORD:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <button type="submit">SUBMIT</button>
+    </form>
+    <script>
+        function checkLogin() {
+            var correctUsername = "guru";
+            var correctPassword = "1234";
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username === correctUsername && password === correctPassword) {
+                window.location.href = "GAME.html";
+                return false;
+            } else {
+                alert("Incorrect username or password");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEVEL 1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .image-display 
+        {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 2px solid #ccc;
+            background-color: #fff;
+        }
+        img 
+        {
+            display: none;
+            width: 300px; 
+            height: auto; 
+            max-width: 75%; 
+            border: 3px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+            object-fit: contain;
+        }
+        @keyframes fadeIn 
+        {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .button-section 
+        {
+            background-color: #eaeaea;
+            padding: 20px;
+            text-align: center;
+        }
+        .button-group 
+        {
+            margin-bottom: 15px;
+        }
+        button 
+        {
+            padding: 10px 15px;
+            margin: 5px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        button:hover 
+        {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1><b>FIND HARDWARE</b></h1>
+        </center>
+    <div class="image-display">
+        <img id="A" src="q1.jpg" alt="Question A">
+        <img id="B" src="q2.jpg" alt="Question B">
+        <img id="C" src="q3.jpg" alt="Question C">
+        <img id="D" src="q4.jpg" alt="Question D">
+        <img id="E" src="q5.jpg" alt="Question E">
+        <img id="answerA" src="a1.jpg" alt="Answer A">
+        <img id="answerB" src="a2.jpg" alt="Answer B">
+        <img id="answerC" src="a3.jpg" alt="Answer C">
+        <img id="answerD" src="a4.jpg" alt="Answer D">
+        <img id="answerE" src="a5.webp" alt="Answer E">
+    </div>
+    <div class="button-section">
+        <div class="button-group">
+            <strong>Questions:</strong><br>
+            <button onclick="showImage('A')">A</button>
+            <button onclick="showImage('B')">B</button>
+            <button onclick="showImage('C')">C</button>
+            <button onclick="showImage('D')">D</button>
+            <button onclick="showImage('E')">E</button>
+        </div>
+        <div class="button-group">
+            <strong>Answers:</strong><br>
+            <button onclick="showImage('answerA')">Answer A</button>
+            <button onclick="showImage('answerB')">Answer B</button>
+            <button onclick="showImage('answerC')">Answer C</button>
+            <button onclick="showImage('answerD')">Answer D</button>
+            <button onclick="showImage('answerE')">Answer E</button>
+        </div>
+        <div class="button-group">
+            <strong>Navigation:</strong><br>
+            <button onclick="goHome()">Home Page</button>
+        </div>
+    </div>
+    <script>
+        function showImage(id) 
+        {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => img.style.display = 'none');
+            const selectedImage = document.getElementById(id);
+            if (selectedImage) 
+            {
+                selectedImage.style.display = 'block';
+            }
+        }
+        function goHome() 
+        {
+            window.location.href = 'GAME.html'; 
+        }
+    </script>
+</body>
+</html>
